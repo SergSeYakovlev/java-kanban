@@ -43,7 +43,7 @@ public class Manager {
     }
 
     public Epic getEpic(int id) {
-        return epics.getOrDefault(id, new Epic("", ""));
+        return epics.getOrDefault(id, new Epic("", " "));
     }
 
     public Subtask getSubtask(int id) {
