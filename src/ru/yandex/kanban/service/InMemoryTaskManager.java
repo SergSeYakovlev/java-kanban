@@ -67,7 +67,6 @@ public class InMemoryTaskManager implements TaskManager {
         return subtask;
     }
 
-
     @Override
     public Map<Integer, Task> getTasks() {
         return tasks;

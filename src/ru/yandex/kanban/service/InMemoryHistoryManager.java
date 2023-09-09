@@ -7,10 +7,12 @@ import java.util.List;
 
 public class InMemoryHistoryManager implements HistoryManager {
     protected List<Task> history = new LinkedList<>();
+
     @Override
     public List<Task> getHistory() {
         return history;
     }
+
     @Override
     public void add(Task task) {
         history.add(task);
