@@ -4,54 +4,94 @@ import ru.yandex.kanban.model.Epic;
 import ru.yandex.kanban.model.Status;
 import ru.yandex.kanban.model.Subtask;
 import ru.yandex.kanban.model.Task;
-import ru.yandex.kanban.service.Manager;
+import ru.yandex.kanban.service.HistoryManager;
+import ru.yandex.kanban.service.Managers;
+import ru.yandex.kanban.service.TaskManager;
 
 public class Main {
 
     public static void main(String[] args) {
 
-        Manager manager = new Manager();
+        TaskManager taskManager = Managers.getDefault();
+        HistoryManager historyManager = taskManager.getHistoryManager();
 
         Task task1 = new Task("Первая таска", "Описание первой таски");
-        manager.addTask(task1);
+        taskManager.addTask(task1);
+
+        historyManager.printHistory();
+
         Task task2 = new Task("Вторая таска", "Описание второй таски");
-        manager.addTask(task2);
+        taskManager.addTask(task2);
+
+        historyManager.printHistory();
+
         Epic epic1 = new Epic("Первый эпик", "Описание первого эпика");
-        manager.addEpic(epic1);
+        taskManager.addEpic(epic1);
+
+        historyManager.printHistory();
+
         Epic epic2 = new Epic("Второй эпик", "Описание второго эпика");
-        manager.addEpic(epic2);
+        taskManager.addEpic(epic2);
+
+        historyManager.printHistory();
+
         Subtask subtask1 = new Subtask("Первая подзадача первого эпика",
                 "Описание первой подзадачи первого эпика");
-        manager.addSubtask(subtask1, epic1);
+        taskManager.addSubtask(subtask1, epic1);
+
+        historyManager.printHistory();
+
         Subtask subtask2 = new Subtask("Первая подзадача второго эпика",
                 "Описание первой подзадачи второго эпика");
-        manager.addSubtask(subtask2, epic2);
+        taskManager.addSubtask(subtask2, epic2);
+
+        historyManager.printHistory();
+
         Subtask subtask3 = new Subtask("Вторая подзадача второго эпика",
                 "Описание второй подзадачи второго эпика");
-        manager.addSubtask(subtask3, epic2);
+        taskManager.addSubtask(subtask3, epic2);
+
+        historyManager.printHistory();
+
         System.out.println("Создано...");
 
-        System.out.println(manager.getTasks());
-        System.out.println(manager.getEpics());
-        System.out.println(manager.getSubtasks());
+        System.out.println(taskManager.getTasks());
+        System.out.println(taskManager.getEpics());
+        System.out.println(taskManager.getSubtasks());
 
-        manager.setSubtaskStatus(subtask1, Status.DONE);
-        manager.setSubtaskStatus(subtask2, Status.IN_PROGRESS);
-        manager.setTaskStatus(task1, Status.IN_PROGRESS);
+        taskManager.setSubtaskStatus(subtask1, Status.DONE);
+
+        historyManager.printHistory();
+
+        taskManager.setSubtaskStatus(subtask2, Status.IN_PROGRESS);
+
+        historyManager.printHistory();
+
+        taskManager.setSubtaskStatus(subtask3, Status.DONE);
+
+        historyManager.printHistory();
+
+        taskManager.setTaskStatus(task1, Status.IN_PROGRESS);
 
         System.out.println("Изменены статусы...");
 
-        System.out.println(manager.getTasks());
-        System.out.println(manager.getEpics());
-        System.out.println(manager.getSubtasks());
+        System.out.println(taskManager.getTasks());
+        System.out.println(taskManager.getEpics());
+        System.out.println(taskManager.getSubtasks());
 
-        manager.deleteSubtask(subtask1);
-        manager.deleteEpic(epic2);
-        manager.deleteTask(task1);
+        taskManager.deleteSubtask(subtask1);
+
+        historyManager.printHistory();
+
+        taskManager.deleteEpic(epic2);
+
+        historyManager.printHistory();
+
+        taskManager.deleteTask(task1);
         System.out.println("Выполнены удаления...");
 
-        System.out.println(manager.getTasks());
-        System.out.println(manager.getEpics());
-        System.out.println(manager.getSubtasks());
+        System.out.println(taskManager.getTasks());
+        System.out.println(taskManager.getEpics());
+        System.out.println(taskManager.getSubtasks());
     }
 }
