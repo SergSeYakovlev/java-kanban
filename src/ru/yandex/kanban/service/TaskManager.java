@@ -6,11 +6,8 @@ import ru.yandex.kanban.model.Subtask;
 import ru.yandex.kanban.model.Task;
 
 import java.util.List;
-import java.util.Map;
 
 public interface TaskManager {
-    int getNextId();
-
     void deleteAllSubtasks();
 
     void deleteAllTasks();
@@ -20,12 +17,6 @@ public interface TaskManager {
     Epic getEpic(int id);
 
     Subtask getSubtask(int id);
-
-    Map<Integer, Task> getTasks();
-
-    Map<Integer, Epic> getEpics();
-
-    Map<Integer, Subtask> getSubtasks();
 
     void deleteTask(Task task);
 
@@ -52,4 +43,10 @@ public interface TaskManager {
     List<Task> getHistory();
 
     void printHistory();
+
+    Task getTask(int id);
+
+    void printAllTasks(String stage);
+
+    List<Subtask> getSubtasksByEpic(Epic epic);
 }

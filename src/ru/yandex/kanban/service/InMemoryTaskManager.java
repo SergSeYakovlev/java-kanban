@@ -17,8 +17,7 @@ public class InMemoryTaskManager implements TaskManager {
     private final Map<Integer, Subtask> subtasks = new HashMap<>();
     private final HistoryManager historyManager = Managers.getDefaultHistory();
 
-    @Override
-    public int getNextId() {
+    private int getNextId() {
         currentId++;
         return currentId;
     }
@@ -56,6 +55,13 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
+    public Task getTask(int id) {
+        Task task = tasks.getOrDefault(id, new Task("", ""));
+        historyManager.add(task);
+        return task;
+    }
+
+    @Override
     public Subtask getSubtask(int id) {
         Subtask subtask = subtasks.getOrDefault(id, new Subtask("", ""));
         historyManager.add(subtask);
@@ -63,17 +69,24 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public Map<Integer, Task> getTasks() {
+    public List<Subtask> getSubtasksByEpic(Epic epic) {
+        List<Integer> subtasksIds = new ArrayList<>(epic.getSubtasksIds());
+        List<Subtask> subtasksByEpic = new ArrayList<>();
+        for (Integer subtaskId : subtasksIds) {
+            subtasksByEpic.add(getSubtask(subtaskId));
+        }
+        return subtasksByEpic;
+    }
+
+    private Map<Integer, Task> getTasks() {
         return tasks;
     }
 
-    @Override
-    public Map<Integer, Epic> getEpics() {
+    private Map<Integer, Epic> getEpics() {
         return epics;
     }
 
-    @Override
-    public Map<Integer, Subtask> getSubtasks() {
+    private Map<Integer, Subtask> getSubtasks() {
         return subtasks;
     }
 
@@ -204,5 +217,14 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public void printHistory() {
         historyManager.printHistory();
+    }
+
+    @Override
+    public void printAllTasks(String stage) {
+        System.out.println(stage);
+        System.out.println();
+        System.out.println(getEpics());
+        System.out.println(getSubtasks());
+        System.out.println(getTasks());
     }
 }
