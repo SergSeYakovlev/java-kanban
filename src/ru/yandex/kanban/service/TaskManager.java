@@ -5,6 +5,7 @@ import ru.yandex.kanban.model.Status;
 import ru.yandex.kanban.model.Subtask;
 import ru.yandex.kanban.model.Task;
 
+import java.util.List;
 import java.util.Map;
 
 public interface TaskManager {
@@ -48,5 +49,7 @@ public interface TaskManager {
 
     void updateTask(int oldTaskId, Task newTask);
 
-    HistoryManager getHistoryManager();
+    List<Task> getHistory();
+
+    void printHistory();
 }
