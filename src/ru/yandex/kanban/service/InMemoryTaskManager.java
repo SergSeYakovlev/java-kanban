@@ -23,7 +23,7 @@ public class InMemoryTaskManager implements TaskManager {
         return currentId;
     }
 
-        @Override
+    @Override
     public void deleteAllSubtasks() {
         HashMap<Integer, Epic> updatingEpics = new HashMap<>();
         for (Subtask subtask : subtasks.values()) {
