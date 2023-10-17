@@ -2,29 +2,33 @@ package ru.yandex.kanban.service;
 
 import ru.yandex.kanban.model.Task;
 
-import java.util.LinkedList;
 import java.util.List;
 
 public class InMemoryHistoryManager implements HistoryManager {
-    private final List<Task> history = new LinkedList<>();
+    private final CustomLinkedList<Task> history = new CustomLinkedList<>();
 
     @Override
     public List<Task> getHistory() {
-        return new LinkedList<>(history);
+        return history.getTasks();
     }
 
     @Override
     public void add(Task task) {
-        history.add(task);
+        history.add(task.getId(), task);
         int delta = history.size() - 10;
-        if (delta > 0) {
-            history.subList(0, delta).clear();
+        for (int i = 0; i < delta; i++) {
+            history.remove(history.getHead().getData().getId());
         }
     }
 
     @Override
     public void printHistory() {
-        System.out.print(history.size());
-        System.out.println(history);
+        System.out.println("История, размер: " + history.size());
+        System.out.println(getHistory());
+    }
+
+    @Override
+    public void remove(int id) {
+        history.remove(id);
     }
 }
