@@ -2,8 +2,8 @@ package ru.yandex.kanban.service;
 
 public class Node<T> {
 
-    private Node<T> previous;
     private final T data;
+    private Node<T> previous;
     private Node<T> next;
 
     public Node(T data) {
